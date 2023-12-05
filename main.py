@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
@@ -44,8 +44,38 @@ def get_movie_by_categoria(categoria : str ,):
         if movie['category']== categoria:
             return movie
         
-@app.get("/movies/", tags=['movies'])
-def get_movie_by_title(titulo : str ):
-    for movie in movies:
-        if movie['title']== titulo:
-            return movie
+        
+@app.post("/movies", tags=['movies'])
+def create_movie(id: int = Body(),
+                 title: str = Body(),
+                 overvie: str = Body(),
+                 year: str = Body(),
+                 rating: float = Body(),
+                 category : str = Body()):
+    movies.append({
+        'id':id,
+        'title':title,
+        'overvie':overvie,
+        'year':year,
+        'rating':rating,
+        'category':category,
+    })
+    return movies
+
+@app.put("/movies/{id}", tags=['movies'])
+def uptade_movie(id: int = Body(),
+                 title: str = Body(),
+                 overvie: str = Body(),
+                 year: str = Body(),
+                 rating: float = Body(),
+                 category : str = Body()):
+    for movie in movie:
+        if movie['id']== id :
+            movie['title']= title
+            movie['overview']= overvie
+            movie['year']= year
+            movie['rainting']= rating
+            movie['category']= category
+            break
+    return movie
+ 
